@@ -8,10 +8,10 @@ class LedShape
         LedShape();
         virtual ~LedShape();
         virtual void scale(const unsigned short noOfNodes,
-                           int & node1[32][8],
-                           int & node2[32][8],
-                           int & node3[32][8],
-                           int & node4[32][8]) = 0;
+                           int * node1,
+                           int * node2,
+                           int * node3,
+                           int * node4) = 0;
 };
 
 class Square: public LedShape
@@ -20,12 +20,12 @@ class Square: public LedShape
         Square(){}
         ~Square(){}
         void scale(const unsigned short noOfNodes,
-                           int & node1[32][8],
-                           int & node2[32][8],
-                           int & node3[32][8],
-                           int & node4[32][8]);
+                           int * node1,
+                           int * node2,
+                           int * node3,
+                           int * node4);
     private:
-        void fillMatrix(int, int, int & [32][8]);
+        void fillMatrix(int, int, int *);
 };
 
 /*
