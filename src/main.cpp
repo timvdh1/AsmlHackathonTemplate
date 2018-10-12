@@ -32,8 +32,8 @@ void setup()
    taskScheduler.addTask( exampleTransmitTask );
    taskScheduler.addTask( exampleDisplayTask );
    taskScheduler.addTask( identifyMasterTask );
-   //exampleTransmitTask.enable();
-   //exampleDisplayTask.enable();
+   exampleTransmitTask.enable();
+   exampleDisplayTask.enable();
    identifyMasterTask.enable();
 
    MY_DEBUG_PRINTLN(F("Setup completed"));
