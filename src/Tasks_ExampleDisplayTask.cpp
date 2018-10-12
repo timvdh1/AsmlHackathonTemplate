@@ -92,7 +92,7 @@ void ExampleDisplayTask::execute()
 
     memset(matrix, 0, sizeof(matrix));
 
-      for(int i=0;i<2;i++)
+     /* for(int i=0;i<2;i++)
       {
           for(int j=0;j<8;j++)
           {
@@ -103,10 +103,10 @@ void ExampleDisplayTask::execute()
           {
             matrix[i*16+j+8][7-j] = 1;
           }
-      }
+      }*/
 
-  //  Square square;
-  //  square.scale(1, (int*)matrix, (int*)(matrix2), (int*)(matrix3), (int*)(matrix4));
+    Square square;
+    square.scale(3, (int*)matrix, (int*)(matrix2), (int*)(matrix3), (int*)(matrix4));
    
 
     drawMessage(matrix);
