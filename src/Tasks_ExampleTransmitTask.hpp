@@ -10,7 +10,9 @@
 #define __Tasks_ExampleTransmitTask__
 
 #include <painlessMesh.h>
+#include "Facilities_MeshNetwork.hpp"
 #include <functional>
+#include "Shape.hpp"
 
 // Forward declarations.
 namespace Facilities { class MeshNetwork; }
@@ -28,10 +30,13 @@ public:
 	ExampleTransmitTask(ExampleTransmitTask&& other) = delete;
 	ExampleTransmitTask& operator=(const ExampleTransmitTask& other) = delete;
 
+    String  encodeMatrix(int component, int matrix[32][8]);
+    void  sendMatrix();
    void execute();
 
 private:
    Facilities::MeshNetwork& m_mesh;
+   Square mSquare;
 
 };
 
