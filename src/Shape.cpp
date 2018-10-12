@@ -1,6 +1,6 @@
 
 #include "Shape.hpp"
-
+#include <cstring>
 
 void Square::fillMatrix(int a, int b, unsigned short intensity, int * node)
 {
@@ -8,7 +8,7 @@ void Square::fillMatrix(int a, int b, unsigned short intensity, int * node)
     {
         for( int k = 0; k<8; k++)
         {
-            node[i*8 + k] = intensity;
+            node[unwrapX(i)*8 + unwrapY(k)] = intensity;
         }
     }
 }
@@ -16,6 +16,10 @@ void Square::fillMatrix(int a, int b, unsigned short intensity, int * node)
 
 void Square::scale(const unsigned short noOfNodes, unsigned short intensity, int * (nodes[4])) 
 {
+    memset((int*)nodes[0], 0, 32*8*4);
+    memset((int*)nodes[1], 0, 32*8*4);
+    memset((int*)nodes[2], 0, 32*8*4);
+    memset((int*)nodes[3], 0, 32*8*4);
     if(noOfNodes == 1)
     {
         fillMatrix(12,20,intensity, (int*)nodes[0]);
@@ -50,7 +54,7 @@ void Circle::scale(const unsigned short noOfNodes, unsigned short intensity, int
         {
             if(isInsideCircle(k+1, i+1))
             {
-                nodes[i/8][k*8 + i%8] = intensity;
+                nodes[i/8][unwrapX(k)*8 + unwrapY(i%8)] = intensity;
             }
         }
     }
@@ -59,7 +63,7 @@ void Circle::scale(const unsigned short noOfNodes, unsigned short intensity, int
 bool Circle::isInsideCircle (short x, short y)
 {
     float distance = (x-16.5)*(x-16.5) + (y-center_)*(y-center_);
-    (center_)*(center_) > distance ? true : false;
+    return (center_)*(center_) > distance ? true : false;
 }
 
 
