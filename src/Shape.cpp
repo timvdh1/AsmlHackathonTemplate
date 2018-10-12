@@ -1,23 +1,22 @@
 
 #include "Shape.hpp"
 
-void Square::fillMatrix(int a, int b, int & node[32][8])
+void Square::fillMatrix(int a, int b, int * node)
 {
     for(int i = a; i<b; i++)
     {
-        for( int k = 0; k<8: k++)
+        for( int k = 0; k<8; k++)
         {
-            node[i][k] = 1;
+            node[i*8 + k] = 1;
         }
     }
 }
 
 
-void Square::scale(const unsigned short noOfNodes,
-                           int & node1[32][8],
-                           int & node2[32][8],
-                           int & node3[32][8],
-                           int & node4[32][8]) 
+void Square::scale(const unsigned short noOfNodes, int * node1,
+                                                   int * node2,
+                                                   int * node3,
+                                                   int * node4) 
 {
     if(noOfNodes == 1)
     {
