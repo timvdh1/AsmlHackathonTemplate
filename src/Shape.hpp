@@ -8,10 +8,8 @@ class LedShape
         LedShape(){};
         virtual ~LedShape(){};
         virtual void scale(const unsigned short noOfNodes,
-                           int * node1,
-                           int * node2,
-                           int * node3,
-                           int * node4) = 0;
+                           unsigned short intensity,
+                           int * (nodes[4])) = 0;
 };
 
 class Square: public LedShape
@@ -20,32 +18,10 @@ class Square: public LedShape
         Square(){}
         ~Square(){}
         void scale(const unsigned short noOfNodes,
-                           int * node1,
-                           int * node2,
-                           int * node3,
-                           int * node4);
+                           unsigned short intensity,
+                           int * (nodes[4]));
     private:
-        void fillMatrix(int, int, int *);
-};
-
-/*
-class Rectangle: public LedShape
-{
-    public:
-        Rectangle(bool isVertical = true, 
-                  short shortAxisLength = 1): isVertical_(isVertical),
-                                               shortAxisLength_(shortAxisLength)
-        {}
-        ~Rectangle() {}
-        void scale(const unsigned short noOfNodes,
-                           int & node1[32][8],
-                           int & node2[32][8],
-                           int & node3[32][8],
-                           int & node4[32][8]);
-    private:
-        bool isVertical_;
-        short shortAxisLength_;
-        void fillMatrix(int, int, int & [32][8]);
+        void fillMatrix(int, int, unsigned short, int *);
 };
 
 
@@ -55,12 +31,13 @@ class Circle: public LedShape
         Circle() {}
         ~Circle() {}
         void scale(const unsigned short noOfNodes,
-                           int & node1[32][8],
-                           int & node2[32][8],
-                           int & node3[32][8],
-                           int & node4[32][8]);
+                           unsigned short intensity,
+                           int * (nodes[4]));
+    private:
+        bool isInsideCircle (short x, short y);
+        float center_;
 };
 
-*/
+
 
 #endif
