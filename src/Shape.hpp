@@ -5,8 +5,8 @@
 class LedShape 
 {
     public:
-        LedShape();
-        virtual ~LedShape();
+        LedShape(){};
+        virtual ~LedShape(){};
         virtual void scale(const unsigned short noOfNodes,
                            int * node1,
                            int * node2,

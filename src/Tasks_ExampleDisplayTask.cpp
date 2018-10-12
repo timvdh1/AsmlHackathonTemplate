@@ -13,6 +13,7 @@
 #include <LEDMatrixDriver.hpp>
 
 #include <functional>
+#include "Shape.hpp"
 
 namespace Tasks {
 
@@ -85,6 +86,10 @@ void ExampleDisplayTask::execute()
    m_lmd.setPixel(9, 4, true);*/
 
     int  matrix[32][8];
+    int  matrix2[32][8];
+    int  matrix3[32][8];
+    int  matrix4[32][8];
+
     memset(matrix, 0, sizeof(matrix));
 
       for(int i=0;i<2;i++)
@@ -99,9 +104,12 @@ void ExampleDisplayTask::execute()
             matrix[i*16+j+8][7-j] = 1;
           }
       }
+
+  //  Square square;
+  //  square.scale(1, (int*)matrix, (int*)(matrix2), (int*)(matrix3), (int*)(matrix4));
    
 
-drawMessage(matrix);
+    drawMessage(matrix);
    m_lmd.display();
 }
 
@@ -109,7 +117,7 @@ drawMessage(matrix);
 void ExampleDisplayTask::decodeMatrix(const String& msg, int matrix[32][8])
 {
    int counter  = 1;
-    for(int i=0 ; i<32 ; i++)
+    for(int i=1 ; i<33 ; i++)
     {
         char ch = msg[i];
         for(int j=0; j<8; j++)

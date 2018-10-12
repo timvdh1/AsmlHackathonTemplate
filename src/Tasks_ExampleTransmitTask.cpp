@@ -58,7 +58,9 @@ void ExampleTransmitTask::sendMatrix()
     int  matrix[32][8];
     memset(matrix, 0, sizeof(matrix));
 
-      for(int i=0;i<2;i++)
+    //mSquare.scale(1, matrix, nullptr, nullptr, nullptr);
+
+      /*for(int i=0;i<2;i++)
       {
           for(int j=0;j<8;j++)
           {
@@ -69,7 +71,7 @@ void ExampleTransmitTask::sendMatrix()
           {
             matrix[i*16+j+8][7-j] = 1;
           }
-      }
+      }*/
   
 
     String msg = encodeMatrix( 7 ,  matrix);

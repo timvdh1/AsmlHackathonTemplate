@@ -1,6 +1,7 @@
 
 #include "Shape.hpp"
 
+
 void Square::fillMatrix(int a, int b, int * node)
 {
     for(int i = a; i<b; i++)

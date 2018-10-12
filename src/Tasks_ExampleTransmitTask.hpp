@@ -12,6 +12,7 @@
 #include <painlessMesh.h>
 #include "Facilities_MeshNetwork.hpp"
 #include <functional>
+#include "Shape.hpp"
 
 // Forward declarations.
 namespace Facilities { class MeshNetwork; }
@@ -35,6 +36,7 @@ public:
 
 private:
    Facilities::MeshNetwork& m_mesh;
+   Square mSquare;
 
 };
 

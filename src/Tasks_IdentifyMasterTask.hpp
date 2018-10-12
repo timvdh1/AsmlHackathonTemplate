@@ -15,6 +15,7 @@
 
 #include "Facilities_MeshNetwork.hpp"
 
+
 // Forward declarations.
 namespace Facilities { class MeshNetwork; }
 
@@ -49,7 +50,7 @@ private:
    unsigned long m_master_refresh_time;
    
    std::vector<masterChangedCallback_t> onMasterChanged_Callbacks;
-
+    
    void InvokeMasterChanged();
    void receivedCb(Facilities::MeshNetwork::NodeId nodeId, String& msg);
 };
