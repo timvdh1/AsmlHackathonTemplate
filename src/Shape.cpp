@@ -22,7 +22,6 @@ void Square::scale(const unsigned short noOfNodes, unsigned short intensity, int
     memset((int*)nodes[2], 0, 32*8*4);
     memset((int*)nodes[3], 0, 32*8*4);
 
-
     if(noOfNodes == 1)
     {
         fillMatrix(12,20,intensity, (int*)nodes[0]);
@@ -49,6 +48,11 @@ void Square::scale(const unsigned short noOfNodes, unsigned short intensity, int
 
 void Circle::scale(const unsigned short noOfNodes, unsigned short intensity, int * (nodes[4]))
 {
+    memset((int*)nodes[0], 0, 32*8*4);
+    memset((int*)nodes[1], 0, 32*8*4);
+    memset((int*)nodes[2], 0, 32*8*4);
+    memset((int*)nodes[3], 0, 32*8*4);
+
     center_ = 4*noOfNodes + 0.5;
 
     for (int i = 0; i<noOfNodes*8; i++)
