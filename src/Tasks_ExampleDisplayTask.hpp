@@ -15,6 +15,7 @@
 #include <LEDMatrixDriver.hpp>
 
 #include <functional>
+#include <string>
 
 // Forward declarations.
 namespace Facilities { class MeshNetwork; }
@@ -49,6 +50,9 @@ private:
    int m_x;
 
    void receivedCb(Facilities::MeshNetwork::NodeId nodeId, String& msg);
+   void loop();
+   void drawMessage(int matrix[32][8]);
+   void decodeMatrix(const String& msg, int matrix[32][8]);
 
 
 };

@@ -8,9 +8,14 @@
 #include "Tasks_ExampleTransmitTask.hpp"
 
 #include "Debug.hpp"
-#include "Facilities_MeshNetwork.hpp"
+
 
 #include <functional>
+#include <string>
+#include <sstream>
+
+using namespace std;
+using namespace ArduinoJson::Internals;
 
 namespace Tasks {
 
@@ -22,11 +27,62 @@ ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh) :
 
 }
 
+
+String ExampleTransmitTask::encodeMatrix(int component, int matrix[32][8])
+{
+   char ch = (int) component;
+   String str = "";
+   str += ch;
+  
+    for(int i=0 ; i<32 ; i++)
+    {
+        char row = 0;
+        for(int j=0; j<8; j++)
+        {
+            row = row << 1 ;
+            if(matrix[i][j] == 1)
+            {
+                row = row | 1;
+            }
+
+        }
+
+        str +=  row; 
+    }
+
+    return str;
+}
+
+void ExampleTransmitTask::sendMatrix()
+{
+    int  matrix[32][8];
+    memset(matrix, 0, sizeof(matrix));
+
+      for(int i=0;i<2;i++)
+      {
+          for(int j=0;j<8;j++)
+          {
+            matrix[i*16+j][j] = 1;
+          }
+
+          for(int j=0;j<8;j++)
+          {
+            matrix[i*16+j+8][7-j] = 1;
+          }
+      }
+  
+
+    String msg = encodeMatrix( 7 ,  matrix);
+    MY_DEBUG_PRINTLN("Data sent: "+msg);
+    m_mesh.sendBroadcast( msg );
+}
+
 void ExampleTransmitTask::execute()
 {
-   String msg = F("Ping from node ");
+   String msg = F("Hello from ");
    msg += m_mesh.getMyNodeId();
-   m_mesh.sendBroadcast( msg );
+   //m_mesh.sendBroadcast( msg );
+   sendMatrix();
 }
 
 } // namespace Tasks
