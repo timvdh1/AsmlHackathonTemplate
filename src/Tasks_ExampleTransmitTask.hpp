@@ -11,6 +11,7 @@
 
 #include <painlessMesh.h>
 #include "Facilities_MeshNetwork.hpp"
+#include "Tasks_IdentifyMasterTask.hpp"
 #include <functional>
 #include "Shape.hpp"
 
@@ -22,7 +23,7 @@ namespace Tasks {
 class ExampleTransmitTask : public Task
 {
 public:
-   explicit ExampleTransmitTask(Facilities::MeshNetwork& mesh);
+   explicit ExampleTransmitTask(Facilities::MeshNetwork& mesh, IdentifyMasterTask& identifyMasterTask);
    ~ExampleTransmitTask() {};
 
    // Disallow copy-ing
@@ -30,11 +31,12 @@ public:
 	ExampleTransmitTask(ExampleTransmitTask&& other) = delete;
 	ExampleTransmitTask& operator=(const ExampleTransmitTask& other) = delete;
 
-    String  encodeMatrix(int component, int matrix[32][8]);
+    String  encodeMatrix( int * matrix);
     void  sendMatrix();
    void execute();
 
 private:
+   IdentifyMasterTask& m_identifyMasterTask;
    Facilities::MeshNetwork& m_mesh;
    Square mSquare;
 

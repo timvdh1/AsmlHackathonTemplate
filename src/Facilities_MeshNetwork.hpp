@@ -34,6 +34,7 @@ public:
    
    void sendBroadcast(String& message);
    void sendBroadcastAll(String& message);
+    void sendSingle(NodeId node, String &message);
    NodeId getMyNodeId();
 
    void onReceive(receivedCallback_t receivedCallback);

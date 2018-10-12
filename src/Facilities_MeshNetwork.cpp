@@ -55,6 +55,19 @@ void MeshNetwork::sendBroadcastAll(String &message)
    m_mesh.sendBroadcast(message, true);
 }
 
+void MeshNetwork::sendSingle(MeshNetwork::NodeId node, String &message)
+{
+   MY_DEBUG_PRINT("Send message: "); MY_DEBUG_PRINTLN(message);
+   if(node != m_mesh.getNodeId())
+   {
+       this->receivedCb(node,message);
+   }
+   else
+   {       
+     m_mesh.sendSingle(node, message);
+   }
+}
+
 MeshNetwork::NodeId MeshNetwork::getMyNodeId()
 {
    return m_mesh.getNodeId();
@@ -68,7 +81,6 @@ void MeshNetwork::onReceive(receivedCallback_t receivedCallback)
 
 void MeshNetwork::receivedCb(NodeId transmitterNodeId, String& msg)
 {
-    MY_DEBUG_PRINT("Heey");
    MY_DEBUG_PRINTF("Data received from node: %u; msg: %s\n", transmitterNodeId, msg.c_str());
    
     for(size_t i = 0; i < receivedCallbacks.size(); i++)

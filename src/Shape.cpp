@@ -1,5 +1,6 @@
 
 #include "Shape.hpp"
+#include <cstring>
 
 
 void Square::fillMatrix(int a, int b, unsigned short intensity, int * node)
@@ -16,6 +17,10 @@ void Square::fillMatrix(int a, int b, unsigned short intensity, int * node)
 
 void Square::scale(const unsigned short noOfNodes, unsigned short intensity, int * (nodes[4])) 
 {
+    memset((int*)nodes[0],0,32*8*4);
+    memset((int*)nodes[1],0,32*8*4);
+    memset((int*)nodes[2],0,32*8*4);
+    memset((int*)nodes[3],0,32*8*4);
     if(noOfNodes == 1)
     {
         fillMatrix(12,20,intensity, (int*)nodes[0]);

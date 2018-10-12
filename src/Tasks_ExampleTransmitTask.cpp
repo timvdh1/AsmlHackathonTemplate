@@ -20,19 +20,18 @@ using namespace ArduinoJson::Internals;
 namespace Tasks {
 
 
-ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh) :
-   Task(TASK_SECOND * 1 , TASK_FOREVER, std::bind(&ExampleTransmitTask::execute, this)),
-   m_mesh(mesh)
+ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh, IdentifyMasterTask& identifyMasterTask) :
+   Task(TASK_SECOND * 10 , TASK_FOREVER, std::bind(&ExampleTransmitTask::execute, this)),
+   m_mesh(mesh),
+   m_identifyMasterTask(identifyMasterTask)
 {
 
 }
 
 
-String ExampleTransmitTask::encodeMatrix(int component, int matrix[32][8])
+String ExampleTransmitTask::encodeMatrix(int * matrix)
 {
-   char ch = (int) component;
-   String str = "";
-   str += ch;
+   String str = "Draw:";
   
     for(int i=0 ; i<32 ; i++)
     {
@@ -40,7 +39,7 @@ String ExampleTransmitTask::encodeMatrix(int component, int matrix[32][8])
         for(int j=0; j<8; j++)
         {
             row = row << 1 ;
-            if(matrix[i][j] == 1)
+            if(matrix[i*8+j] == 1)
             {
                 row = row | 1;
             }
@@ -55,36 +54,37 @@ String ExampleTransmitTask::encodeMatrix(int component, int matrix[32][8])
 
 void ExampleTransmitTask::sendMatrix()
 {
-    int  matrix[32][8];
-    memset(matrix, 0, sizeof(matrix));
+    int  matrix1[32][8];
+    int  matrix2[32][8];
+    int  matrix3[32][8];
+    int  matrix4[32][8];
 
-    //mSquare.scale(1, matrix, nullptr, nullptr, nullptr);
+    int* matrix[4] = {(int*)matrix1,(int*)matrix2,(int*)matrix3,(int*)matrix4};
 
-      /*for(int i=0;i<2;i++)
-      {
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j][j] = 1;
-          }
 
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j+8][7-j] = 1;
-          }
-      }*/
-  
+     std::list<uint32_t> nodes = m_mesh.m_mesh.getNodeList();
+    int totalNodes = nodes.size() + 1;
 
-    String msg = encodeMatrix( 7 ,  matrix);
-    MY_DEBUG_PRINTLN("Data sent: "+msg);
-    m_mesh.sendBroadcast( msg );
+    Square square;
+    square.scale(totalNodes,1, matrix);
+    int currentNode = 0;
+
+     for (std::list<uint32_t>::const_iterator iterator = nodes.begin(), end = nodes.end(); iterator != end; ++iterator) {         
+         String msg = encodeMatrix(matrix[currentNode]);
+         currentNode++;
+         uint32_t node = *iterator;
+         m_mesh.sendSingle(node, msg);
+     }
+     String msg = encodeMatrix(matrix[currentNode]);
+    m_mesh.sendSingle(m_mesh.getMyNodeId(), msg);
 }
 
 void ExampleTransmitTask::execute()
 {
-   String msg = F("Hello from ");
-   msg += m_mesh.getMyNodeId();
-   //m_mesh.sendBroadcast( msg );
-   sendMatrix();
+    if(m_identifyMasterTask.isMaster())
+    {
+     sendMatrix();
+    }
 }
 
 } // namespace Tasks
