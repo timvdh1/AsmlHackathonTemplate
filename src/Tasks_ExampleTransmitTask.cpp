@@ -59,20 +59,19 @@ void ExampleTransmitTask::sendMatrix()
     memset(matrix, 0, sizeof(matrix));
 
     //mSquare.scale(1, matrix, nullptr, nullptr, nullptr);
-
-      /*for(int i=0;i<2;i++)
+#if 0  // a wide \/\/
+      for(int i=0; i<2; i++)
       {
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j][j] = 1;
-          }
-
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j+8][7-j] = 1;
-          }
-      }*/
-  
+          for(int j=0;j<8;j++)  matrix[i*16+j][j] = 1;
+          for(int j=0;j<8;j++)  matrix[i*16+j+8][7-j] = 1;
+      }
+#else  // four X's:  XXXX
+      for(int i=0; i<4; i++)
+      {
+          for(int j=0;j<8;j++)  matrix[i*8+j][j] = 1;
+          for(int j=0;j<8;j++)  matrix[i*8+j][7-j] = 1;
+      }
+#endif
 
     String msg = encodeMatrix( 7 ,  matrix);
     MY_DEBUG_PRINTLN("Data sent: "+msg);
