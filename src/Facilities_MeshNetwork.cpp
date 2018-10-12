@@ -47,6 +47,12 @@ void MeshNetwork::sendBroadcast(String &message)
    m_mesh.sendBroadcast(message, false); // false: Do not include self.
 }
 
+void MeshNetwork::sendBroadcastAll(String &message)
+{
+   MY_DEBUG_PRINT("Broadcasting message: "); MY_DEBUG_PRINTLN(message);
+   m_mesh.sendBroadcast(message, true);
+}
+
 MeshNetwork::NodeId MeshNetwork::getMyNodeId()
 {
    return m_mesh.getNodeId();

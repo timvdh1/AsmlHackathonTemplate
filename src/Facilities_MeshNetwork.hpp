@@ -32,6 +32,7 @@ public:
    void initialize(const __FlashStringHelper *prefix, const __FlashStringHelper *password, Scheduler& taskScheduler);
 
    void sendBroadcast(String& message);
+   void sendBroadcastAll(String& message);
    NodeId getMyNodeId();
 
    void onReceive(receivedCallback_t receivedCallback);

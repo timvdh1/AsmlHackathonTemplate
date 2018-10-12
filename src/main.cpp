@@ -5,6 +5,7 @@
 #include "Facilities_MeshNetwork.hpp"
 #include "Tasks_ExampleTransmitTask.hpp"
 #include "Tasks_ExampleDisplayTask.hpp"
+#include "Tasks_IdentifyMasterTask.hpp"
 
 // Translation unit local variables
 namespace {
@@ -14,6 +15,7 @@ Scheduler                  taskScheduler;
 Facilities::MeshNetwork    meshNetwork;
 Tasks::ExampleTransmitTask exampleTransmitTask(meshNetwork);
 Tasks::ExampleDisplayTask  exampleDisplayTask(meshNetwork);
+Tasks::IdentifyMasterTask  identifyMasterTask(meshNetwork);
 }
 
 //! Called once at board startup.
@@ -22,14 +24,17 @@ void setup()
    MY_DEBUG_BEGIN(115200);
 
    // Create MeshNetwork
-   meshNetwork.initialize(F("Mesh-Prefix"), F("Mesh-Secret-Password"), taskScheduler);
+   meshNetwork.initialize(F("Mesh_Black"), F("blueblue"), taskScheduler);
+
+   configTime(0, 0, "pool.ntp.org", "time.nist.gov");
 
    // Create and add tasks.
    taskScheduler.addTask( exampleTransmitTask );
    taskScheduler.addTask( exampleDisplayTask );
-   exampleTransmitTask.enable();
-   exampleDisplayTask.enable();
-
+   taskScheduler.addTask( identifyMasterTask );
+   //exampleTransmitTask.enable();
+   //exampleDisplayTask.enable();
+   identifyMasterTask.enable();
 
    MY_DEBUG_PRINTLN(F("Setup completed"));
 }

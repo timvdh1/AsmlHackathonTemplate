@@ -49,6 +49,7 @@ void ExampleDisplayTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, Stri
 {
    MY_DEBUG_PRINTLN("Received data in ExampleDisplayTask");
 
+   MY_DEBUG_PRINTLN(m_x);
    if(++m_x>LEDMATRIX_WIDTH)
    {
       m_x=0;
