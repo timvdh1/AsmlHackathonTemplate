@@ -11,6 +11,7 @@
 
 #include "painlessMesh.h"
 #include <functional>
+#include <vector>
 
 namespace Facilities {
 
@@ -30,7 +31,7 @@ public:
 
    void update();
    void initialize(const __FlashStringHelper *prefix, const __FlashStringHelper *password, Scheduler& taskScheduler);
-
+   
    void sendBroadcast(String& message);
    void sendBroadcastAll(String& message);
    NodeId getMyNodeId();
@@ -38,15 +39,14 @@ public:
    void onReceive(receivedCallback_t receivedCallback);
 
 
+   painlessMesh       m_mesh;
 
 private:
    static const uint16_t PORT;
 
-   painlessMesh       m_mesh;
+   std::vector<receivedCallback_t> receivedCallbacks;
 
    void receivedCb(NodeId transmitterNodeId, String& msg);
-
-
 };
 
 } // namespace Facilities

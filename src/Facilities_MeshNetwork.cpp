@@ -19,7 +19,8 @@ const uint16_t MeshNetwork::PORT = 5555;
 
 //! Construct only.
 //! \note Does not construct and initialize in one go to be able to initialize after serial debug port has been opened.
-MeshNetwork::MeshNetwork()
+MeshNetwork::MeshNetwork() :
+    receivedCallbacks(std::vector<receivedCallback_t>())
 {
    m_mesh.onReceive(std::bind(&MeshNetwork::receivedCb, this, std::placeholders::_1, std::placeholders::_2));
    //m_mesh.onNewConnection(...);
@@ -32,7 +33,8 @@ void MeshNetwork::initialize(const __FlashStringHelper *prefix, const __FlashStr
 {
    // Set debug messages before init() so that you can see startup messages.
    m_mesh.setDebugMsgTypes( ERROR | STARTUP );  // To enable all: ERROR | MESH_STATUS | CONNECTION | SYNC | COMMUNICATION | GENERAL | MSG_TYPES | REMOTE
-   m_mesh.init( prefix, password, &taskScheduler, MeshNetwork::PORT );
+   m_mesh.init( prefix, password, &taskScheduler, MeshNetwork::PORT);
+   m_mesh.onReceive(std::bind(&MeshNetwork::receivedCb, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 //! Update mesh; forward call to painlessMesh.
@@ -58,14 +60,22 @@ MeshNetwork::NodeId MeshNetwork::getMyNodeId()
    return m_mesh.getNodeId();
 }
 
+
 void MeshNetwork::onReceive(receivedCallback_t receivedCallback)
 {
-   m_mesh.onReceive(receivedCallback);
+    receivedCallbacks.push_back(receivedCallback);
 }
 
 void MeshNetwork::receivedCb(NodeId transmitterNodeId, String& msg)
 {
+    MY_DEBUG_PRINT("Heey");
    MY_DEBUG_PRINTF("Data received from node: %u; msg: %s\n", transmitterNodeId, msg.c_str());
+   
+    for(size_t i = 0; i < receivedCallbacks.size(); i++)
+    {
+        receivedCallback_t callback = receivedCallbacks[i];
+        callback(transmitterNodeId, msg);
+    }
 }
 
 
