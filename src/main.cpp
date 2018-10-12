@@ -24,7 +24,7 @@ void setup()
    MY_DEBUG_BEGIN(115200);
 
    // Create MeshNetwork
-   meshNetwork.initialize(F("Mesh_Black"), F("blueblue"), taskScheduler);
+   meshNetwork.initialize(F("Mesh_Black_3"), F("blueblue"), taskScheduler);
 
    configTime(0, 0, "pool.ntp.org", "time.nist.gov");
 

@@ -24,7 +24,7 @@ IdentifyMasterTask::IdentifyMasterTask(Facilities::MeshNetwork& mesh) :
     m_master_refresh_time(0),
     onMasterChanged_Callbacks(std::vector<masterChangedCallback_t>())
 {
-   m_mesh.onReceive(std::bind(&IdentifyMasterTask::receivedCb, this, std::placeholders::_1, std::placeholders::_2));
+   //m_mesh.onReceive(std::bind(&IdentifyMasterTask::receivedCb, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void IdentifyMasterTask::onMasterChanged(masterChangedCallback_t callback)

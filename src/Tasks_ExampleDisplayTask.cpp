@@ -23,7 +23,7 @@ const int ExampleDisplayTask::LEDMATRIX_HEIGHT = 7;
 const int ExampleDisplayTask::LEDMATRIX_SEGMENTS = 4;
 const int ExampleDisplayTask::LEDMATRIX_INTENSITY = 5;
 const int ExampleDisplayTask::LEDMATRIX_CS_PIN = 16;
-const unsigned long ExampleDisplayTask::POLL_DELAY_MS = 100;
+const unsigned long ExampleDisplayTask::POLL_DELAY_MS = 50;  // was: 100
 
 //! Initializes the LED Matrix display.
 ExampleDisplayTask::ExampleDisplayTask(Facilities::MeshNetwork& mesh) :
@@ -68,48 +68,40 @@ void ExampleDisplayTask::loop() {
   m_lmd.setDigit(1, LEDMatrixDriver::BCD_BLANK);
   m_lmd.setDigit(0, LEDMatrixDriver::BCD_DASH);
   m_lmd.display(); 
-  delay(1000);
+     //MY_DEBUG_PRINTLN("Inside loop()");  // never
+ delay(1000);
 }
+
+int step, offsets[8];
+
 void ExampleDisplayTask::execute()
 {
-   m_lmd.clear();
+   if (step==0) { m_lmd.clear(); for (int i=0; i<8; ++i)  offsets[i] = rand() % 3; }
+ #if 0
+   int Y = step & 15;
+   bool dot = (step&16? false: true);
 
-    //loop();
-   /*m_lmd.setPixel(m_x, 0, true);
-
-   m_lmd.setPixel(m_x, 2, true);
-
-    m_lmd.setPixel(1, 0, true);
-
-   // m_lmd.setDigit(3, 3, true);
-   
-   m_lmd.setPixel(9, 4, true);*/
-
-    int  matrix[32][8];
-    int  matrix2[32][8];
-    int  matrix3[32][8];
-    int  matrix4[32][8];
-
-    memset(matrix, 0, sizeof(matrix));
-
-     /* for(int i=0;i<2;i++)
-      {
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j][j] = 1;
-          }
-
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j+8][7-j] = 1;
-          }
-      }*/
-
-    Square square;
-    square.scale(3, (int*)matrix, (int*)(matrix2), (int*)(matrix3), (int*)(matrix4));
-   
-
-    drawMessage(matrix);
+   for (int i=0; i < 8; ++i) {
+        m_lmd.setPixel(Y+i, i, dot);
+    }
+    ++step;
+#elif 0
+   int Y = step & 31;
+   for (int i=0; i < 8; ++i)  m_lmd.setPixel((Y+offsets[i]) ^ 0x18, i, false);
+   ++step;
+   Y = step & 31;
+   for (int i=0; i < 8; ++i)  m_lmd.setPixel((Y+offsets[i]) ^ 0x18, i, true);
+#elif 0
+    ++step;
+    m_lmd.setIntensity(step%10);
+    int Y = (gN ^ 0x18) & 31;
+    if (gN & 32)
+    for (int i=0; i < 8; ++i)  m_lmd.setPixel(Y, i, true);
+    else
+    for (int i=0; i < 8; ++i)  m_lmd.setPixel(Y, i, false);
+#else
+    ++step;
+#endif
    m_lmd.display();
 }
 
@@ -122,10 +114,9 @@ void ExampleDisplayTask::decodeMatrix(const String& msg, int matrix[32][8])
         char ch = msg[i];
         for(int j=0; j<8; j++)
         {
-            matrix[i][j] = ch & 1;
+            matrix[i-1][j] = ch & 1;
             ch = ch >> 1;
         }
-            
     }
 }
 
@@ -141,26 +132,21 @@ void ExampleDisplayTask::drawMessage(int matrix[32][8])
                 m_lmd.setPixel(i, j, true);
         }
     }
-
     m_lmd.display();
 }
 
 void ExampleDisplayTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, String& msg)
 {
-   MY_DEBUG_PRINTLN("Received data in ExampleDisplayTask"+msg);
-
-   if(++m_x>LEDMATRIX_WIDTH)
-   {
-      m_x=0;
-   }
+   MY_DEBUG_PRINTLN("Received data in ExampleDisplayTask: "+msg);
 
     if (msg[0] != 7)
         return ;
 
     MY_DEBUG_PRINTLN("Data received:"+msg);
 
-   /*int matrix[32][8];
-   decodeMatrix( msg, matrix);*/
+   int matrix[32][8];
+   decodeMatrix( msg, matrix);
+   drawMessage(matrix);
 }
 
 } // namespace Tasks

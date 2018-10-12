@@ -81,9 +81,9 @@ void ExampleTransmitTask::sendMatrix()
 
 void ExampleTransmitTask::execute()
 {
-   String msg = F("Hello from ");
+   String msg = F("Hello from Alex's node ");
    msg += m_mesh.getMyNodeId();
-   //m_mesh.sendBroadcast( msg );
+   m_mesh.sendBroadcast( msg );
    sendMatrix();
 }
 
