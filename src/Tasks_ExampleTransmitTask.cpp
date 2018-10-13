@@ -121,7 +121,8 @@ void ExampleTransmitTask::execute()
 {
     if(m_identifyMasterTask.isMaster())
     {
-     sendMatrix();
+        currentShape++;
+        sendMatrix();
     }
 }
 

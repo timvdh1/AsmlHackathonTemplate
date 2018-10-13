@@ -46,18 +46,18 @@ void setup()
    meshNetwork.initialize(F(STATION_SSID), F(STATION_PASSWORD), taskScheduler);
 
     //meshNetwork.m_mesh.stationManual(STATION_SSID, STATION_PASSWORD);
-    meshNetwork.m_mesh.setHostname(HOSTNAME);
-    myAPIP = IPAddress(meshNetwork.m_mesh.getAPIP());
+//     meshNetwork.m_mesh.setHostname(HOSTNAME);
+//     myAPIP = IPAddress(meshNetwork.m_mesh.getAPIP());
 
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-     request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
-     exampleTransmitTask.nextShape();
-     //if (request->hasArg("BROADCAST")){
-     //  String msg = request->arg("BROADCAST");
-     //  meshNetwork.m_mesh.sendBroadcast(msg);
-     //}
-   });
-   server.begin();
+//     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+//      request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
+//      exampleTransmitTask.nextShape();
+//      //if (request->hasArg("BROADCAST")){
+//      //  String msg = request->arg("BROADCAST");
+//      //  meshNetwork.m_mesh.sendBroadcast(msg);
+//      //}
+//    });
+   //server.begin();
 
    // Create and add tasks.
    bool hardcoded = false;
