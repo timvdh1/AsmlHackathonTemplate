@@ -28,11 +28,9 @@ ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh, Identify
 
 }
 
-
 String ExampleTransmitTask::encodeMatrix(int * matrix)
 {
    String str = "Draw:";
-  
     for(int i=0 ; i<32 ; i++)
     {
         char row = 0;
@@ -46,7 +44,7 @@ String ExampleTransmitTask::encodeMatrix(int * matrix)
 
         }
 
-        str +=  row; 
+        str += row; 
     }
 
     return str;

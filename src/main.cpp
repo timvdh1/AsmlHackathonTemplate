@@ -6,6 +6,8 @@
 #include "Tasks_ExampleTransmitTask.hpp"
 #include "Tasks_ExampleDisplayTask.hpp"
 #include "Tasks_IdentifyMasterTask.hpp"
+#include "Tasks_HardcodedDisplay.hpp"
+
 
 //HTTP SERVER
 #include "IPAddress.h"
@@ -31,6 +33,7 @@ Scheduler                  taskScheduler;
 Facilities::MeshNetwork    meshNetwork;
 Tasks::IdentifyMasterTask  identifyMasterTask(meshNetwork);
 Tasks::ExampleTransmitTask exampleTransmitTask(meshNetwork,identifyMasterTask);
+Tasks::HardcodedDisplayTask  hardcodedDisplayTask(meshNetwork);
 Tasks::ExampleDisplayTask  exampleDisplayTask(meshNetwork);
 }
 
@@ -56,12 +59,23 @@ void setup()
 //   sever.begin();
 
    // Create and add tasks.
+   bool hardcoded = true;
+   taskScheduler.addTask( identifyMasterTask );
+   identifyMasterTask.enable();
+   if(hardcoded)
+   {
+   taskScheduler.addTask( hardcodedDisplayTask);
+   hardcodedDisplayTask.enable();
+   }
+   else
+   {
    taskScheduler.addTask( exampleTransmitTask );
    taskScheduler.addTask( exampleDisplayTask );
-   taskScheduler.addTask( identifyMasterTask );
    exampleTransmitTask.enable();
    exampleDisplayTask.enable();
-   identifyMasterTask.enable();
+
+   }
+
 
    MY_DEBUG_PRINTLN(F("Setup completed"));
 }

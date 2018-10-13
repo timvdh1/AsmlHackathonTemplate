@@ -34,56 +34,12 @@ HardcodedDisplayTask::HardcodedDisplayTask(Facilities::MeshNetwork& mesh) :
 {
    m_lmd.setEnabled(true);
    m_lmd.setIntensity(LEDMATRIX_INTENSITY);
-
-   m_mesh.onReceive(std::bind(&HardcodedDisplayTask::receivedCb, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-//! Update display
-
-void HardcodedDisplayTask::loop() {
-  // Show runtime in seconds for one second
-  unsigned long now = millis();
-  int digit;
-  do {
-    // My display has the digits in reverse order
-    // Ie digit 0 is the one on the far right.
-    // This matches 10^0 :-)
-    unsigned long rest = millis();
-    for (digit = 0; digit < 8; digit++) {
-      m_lmd.setDigit(digit, rest % 10, digit == 3);
-      rest /= 10;
-    }
-    m_lmd.display(); 
-    delay(10);
-  }
-  while (millis() - now < 1000);
-
-  // Show "- HELP -" for one second
-  m_lmd.setDigit(7, LEDMatrixDriver::BCD_DASH);
-  m_lmd.setDigit(6, LEDMatrixDriver::BCD_BLANK);
-  m_lmd.setDigit(5, LEDMatrixDriver::BCD_H);
-  m_lmd.setDigit(4, LEDMatrixDriver::BCD_E);
-  m_lmd.setDigit(3, LEDMatrixDriver::BCD_L);
-  m_lmd.setDigit(2, LEDMatrixDriver::BCD_P);
-  m_lmd.setDigit(1, LEDMatrixDriver::BCD_BLANK);
-  m_lmd.setDigit(0, LEDMatrixDriver::BCD_DASH);
-  m_lmd.display(); 
-  delay(1000);
-}
 void HardcodedDisplayTask::execute()
 {
    m_lmd.clear();
 
-    //loop();
-   /*m_lmd.setPixel(m_x, 0, true);
-
-   m_lmd.setPixel(m_x, 2, true);
-
-    m_lmd.setPixel(1, 0, true);
-
-   // m_lmd.setDigit(3, 3, true);
-   
-   m_lmd.setPixel(9, 4, true);*/
 
     int  matrix[32][8];
     int  matrix2[32][8];
@@ -101,20 +57,6 @@ void HardcodedDisplayTask::execute()
     p[2] = (int *)matrix3;
     p[3] = (int *)matrix4;
 
-/*
-      for(int i=0;i<2;i++)
-      {
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j][j] = 1;
-          }
-
-          for(int j=0;j<8;j++)
-          {
-            matrix[i*16+j+8][7-j] = 1;
-          }
-      }
-*/
 
    
    Circle circle;
@@ -122,35 +64,6 @@ void HardcodedDisplayTask::execute()
    circle.scale(noOfNodes, 1, p);
 
    
-/*
-   for (int i=0; i<32; i++)
-   {
-       MY_DEBUG_PRINT(i);
-       MY_DEBUG_PRINT(" ");
-       for (int k=0; k<8; k++)
-       {
-           
-                MY_DEBUG_PRINT(matrix[i][k]);
-                MY_DEBUG_PRINT(" ");
-
-                /*
-                if(i<15)
-                {
-                    matrix[i][k] = 0;
-                }
-
-                if( i == 1)
-                matrix[i][k] = 1;
-                if(k == 0)
-                matrix[i][k] = 0;
-               
-       }
-       MY_DEBUG_PRINTLN(" ");
-
-       
-
-   }
-    */
 
    for (int i = 0; i < 4; i++)
    {
@@ -209,24 +122,6 @@ void HardcodedDisplayTask::drawMessage(int matrix[32][8])
     }
 
     m_lmd.display();
-}
-
-void HardcodedDisplayTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, String& msg)
-{
-   MY_DEBUG_PRINTLN("Received data in ExampleDisplayTask"+msg);
-
-   if(++m_x>LEDMATRIX_WIDTH)
-   {
-      m_x=0;
-   }
-
-    if (msg[0] != 7)
-        return ;
-
-    MY_DEBUG_PRINTLN("Data received:"+msg);
-
-   /*int matrix[32][8];
-   decodeMatrix( msg, matrix);*/
 }
 
 } // namespace Tasks
