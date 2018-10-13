@@ -5,6 +5,7 @@
 #include "Facilities_MeshNetwork.hpp"
 #include "Tasks_ExampleTransmitTask.hpp"
 #include "Tasks_ExampleDisplayTask.hpp"
+#include "Tasks_HardcodedDisplay.hpp"
 #include "Tasks_IdentifyMasterTask.hpp"
 
 // Translation unit local variables
@@ -15,6 +16,7 @@ Scheduler                  taskScheduler;
 Facilities::MeshNetwork    meshNetwork;
 Tasks::ExampleTransmitTask exampleTransmitTask(meshNetwork);
 Tasks::ExampleDisplayTask  exampleDisplayTask(meshNetwork);
+Tasks::HardcodedDisplayTask  hardcodedDisplayTask(meshNetwork);
 Tasks::IdentifyMasterTask  identifyMasterTask(meshNetwork);
 }
 
@@ -24,7 +26,7 @@ void setup()
    MY_DEBUG_BEGIN(115200);
 
    // Create MeshNetwork
-   meshNetwork.initialize(F("Mesh_Black_3"), F("blueblue"), taskScheduler);
+   meshNetwork.initialize(F("Mesh_Black_ugurFix"), F("blueblue_ugurFix"), taskScheduler);
 
    configTime(0, 0, "pool.ntp.org", "time.nist.gov");
 
@@ -32,8 +34,11 @@ void setup()
    taskScheduler.addTask( exampleTransmitTask );
    taskScheduler.addTask( exampleDisplayTask );
    taskScheduler.addTask( identifyMasterTask );
-   exampleTransmitTask.enable();
-   exampleDisplayTask.enable();
+   taskScheduler.addTask( hardcodedDisplayTask);
+
+   //exampleTransmitTask.enable();
+   //exampleDisplayTask.enable();
+   hardcodedDisplayTask.enable();
    identifyMasterTask.enable();
 
    MY_DEBUG_PRINTLN(F("Setup completed"));
@@ -44,4 +49,5 @@ void loop()
 {
    taskScheduler.execute();
    meshNetwork.update();
+
 }
