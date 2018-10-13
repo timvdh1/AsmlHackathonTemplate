@@ -64,7 +64,7 @@ void ExampleDisplayTask::drawMessage(int matrix[32][8])
     {
         for(int j=0;j<8;j++)
         {
-            if(matrix[i][j] == 1 )
+            if(matrix[i][j] != 0 )
                 m_lmd.setPixel(i, j, true);
         }
     }
