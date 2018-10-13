@@ -50,6 +50,7 @@ int char2int(char input)
     return input - 'A' + 10;
   if(input >= 'a' && input <= 'f')
     return input - 'a' + 10;
+  return 0;  
 }
 
 void ExampleDisplayTask::decodeMatrix(const String& msg, int matrix[32][8])
