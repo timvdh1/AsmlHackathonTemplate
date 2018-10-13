@@ -21,7 +21,7 @@ namespace Tasks {
 
 
 ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh, IdentifyMasterTask& identifyMasterTask) :
-   Task(TASK_SECOND * 5 , TASK_FOREVER, std::bind(&ExampleTransmitTask::execute, this)),
+   Task(TASK_SECOND * 10 , TASK_FOREVER, std::bind(&ExampleTransmitTask::execute, this)),
    m_mesh(mesh),
    m_identifyMasterTask(identifyMasterTask)
 {
