@@ -43,11 +43,21 @@ void ExampleDisplayTask::execute()
     
 }
 
+int char2int(char input)
+{
+  if(input >= '0' && input <= '9')
+    return input - '0';
+  if(input >= 'A' && input <= 'F')
+    return input - 'A' + 10;
+  if(input >= 'a' && input <= 'f')
+    return input - 'a' + 10;
+}
+
 void ExampleDisplayTask::decodeMatrix(const String& msg, int matrix[32][8])
 {
     for(int i=0 ; i<32 ; i++)
     {
-        char ch = msg[i];
+        char ch = char2int(msg[i*2])*16 + char2int(msg[i*2+1]);
         for(int j=0; j<8; j++)
         {
             matrix[i][j] = ch & 1;

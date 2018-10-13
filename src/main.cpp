@@ -59,7 +59,7 @@ void setup()
 //   sever.begin();
 
    // Create and add tasks.
-   bool hardcoded = true;
+   bool hardcoded = false;
    taskScheduler.addTask( identifyMasterTask );
    identifyMasterTask.enable();
    if(hardcoded)

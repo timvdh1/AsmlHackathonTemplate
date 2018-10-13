@@ -63,7 +63,7 @@ void IdentifyMasterTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, Stri
    {
        m_master_id = nodeId;
        InvokeMasterChanged();
-       m_master_refresh_time = millis() + (5 * 1000);
+       m_master_refresh_time = millis() + (10 * 1000);
    }
    else if(!m_master_id)
    {      
@@ -75,7 +75,7 @@ void IdentifyMasterTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, Stri
                 m_master_id = m_candidate_id;
             }
             m_candidate_id = 0;
-            m_master_refresh_time = millis() + (5 * 1000);
+            m_master_refresh_time = millis() + (10 * 1000);
         } 
         if(msg == "Ping")
         {            

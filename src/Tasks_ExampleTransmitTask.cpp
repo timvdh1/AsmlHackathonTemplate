@@ -28,24 +28,38 @@ ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh, Identify
 
 }
 
+void array_to_string(char array[], unsigned int len, char buffer[])
+{
+    for (unsigned int i = 0; i < len; i++)
+    {
+        byte nib1 = (array[i] >> 4) & 0x0F;
+        byte nib2 = (array[i] >> 0) & 0x0F;
+        buffer[i*2+0] = nib1  < 0xA ? '0' + nib1  : 'A' + nib1  - 0xA;
+        buffer[i*2+1] = nib2  < 0xA ? '0' + nib2  : 'A' + nib2  - 0xA;
+    }
+    buffer[len*2] = '\0';
+}
+
 String ExampleTransmitTask::encodeMatrix(int * matrix)
 {
+    char encodedMatrix[32];
+    char encodedMatrixString[65];
    String str = "Draw:";
     for(int i=0 ; i<32 ; i++)
     {
+        encodedMatrix[i];
         char row = 0;
         for(int j=0; j<8; j++)
         {
-            row = row << 1 ;
+            encodedMatrix[i] = encodedMatrix[i] << 1 ;
             if(matrix[i*8+j] == 1)
             {
-                row = row | 1;
+                encodedMatrix[i] = encodedMatrix[i] | 1;
             }
-
         }
-
-        str += row; 
     }
+    array_to_string(encodedMatrix,32,encodedMatrixString);
+        str += encodedMatrixString; 
 
     return str;
 }
