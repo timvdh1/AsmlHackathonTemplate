@@ -45,13 +45,13 @@ void MeshNetwork::update()
 
 void MeshNetwork::sendBroadcast(String &message)
 {
-   MY_DEBUG_PRINT("Broadcasting message: "); MY_DEBUG_PRINTLN(message);
+  // MY_DEBUG_PRINT("Broadcasting message: "); MY_DEBUG_PRINTLN(message);
    m_mesh.sendBroadcast(message, false); // false: Do not include self.
 }
 
 void MeshNetwork::sendBroadcastAll(String &message)
 {
-   MY_DEBUG_PRINT("Broadcasting message: "); MY_DEBUG_PRINTLN(message);
+  // MY_DEBUG_PRINT("Broadcasting message: "); MY_DEBUG_PRINTLN(message);
    m_mesh.sendBroadcast(message, true);
 }
 
@@ -70,6 +70,8 @@ void MeshNetwork::sendSingle(MeshNetwork::NodeId node, String &message)
 
 MeshNetwork::NodeId MeshNetwork::getMyNodeId()
 {
+    //MY_DEBUG_PRINT("My node id is: ");
+    //MY_DEBUG_PRINTLN(m_mesh.getNodeId() );
    return m_mesh.getNodeId();
 }
 
