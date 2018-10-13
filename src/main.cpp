@@ -66,7 +66,7 @@ void setup()
       MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
       MY_DEBUG_PRINT("Shape Type INT: ");
        MY_DEBUG_PRINTLN(shape);
-      meshNetwork.m_mesh.sendBroadcastAll("Shape:"+ String(shape));
+      meshNetwork.sendBroadcastAll("Shape:"+ String(shape));
     }
     
   });
@@ -80,7 +80,7 @@ server.on("/", HTTP_POST, [](AsyncWebServerRequest *request){
       MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
       MY_DEBUG_PRINT("Shape Type INT: ");
        MY_DEBUG_PRINTLN(shape);
-       meshNetwork.m_mesh.sendBroadcastAll("Shape:"+ String(shape));
+       meshNetwork.sendBroadcastAll("Shape:"+ String(shape));
     }
     
   });
