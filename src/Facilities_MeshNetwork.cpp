@@ -58,7 +58,7 @@ void MeshNetwork::sendBroadcastAll(String &message)
 void MeshNetwork::sendSingle(MeshNetwork::NodeId node, String &message)
 {
    MY_DEBUG_PRINT("Send message: "); MY_DEBUG_PRINTLN(message);
-   if(node != m_mesh.getNodeId())
+   if(node == m_mesh.getNodeId())
    {
        this->receivedCb(node,message);
    }

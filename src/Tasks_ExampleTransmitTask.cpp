@@ -64,8 +64,11 @@ void ExampleTransmitTask::sendMatrix()
 
      std::list<uint32_t> nodes = m_mesh.m_mesh.getNodeList();
     int totalNodes = nodes.size() + 1;
+    if(totalNodes > 4)
+    totalNodes = 4;
 
-    Square square;
+
+    Circle square;
     square.scale(totalNodes,1, matrix);
     int currentNode = 0;
 
@@ -75,8 +78,11 @@ void ExampleTransmitTask::sendMatrix()
          uint32_t node = *iterator;
          m_mesh.sendSingle(node, msg);
      }
-     String msg = encodeMatrix(matrix[currentNode]);
-    m_mesh.sendSingle(m_mesh.getMyNodeId(), msg);
+     if(currentNode <=3)
+     {
+        String msg = encodeMatrix(matrix[currentNode]);
+        m_mesh.sendSingle(m_mesh.getMyNodeId(), msg);
+     }
 }
 
 void ExampleTransmitTask::execute()
