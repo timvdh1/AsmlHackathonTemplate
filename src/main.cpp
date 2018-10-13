@@ -53,6 +53,7 @@ void setup()
 //       meshNetwork.m_mesh.sendBroadcast(msg);
 //     }
 //   });
+//   sever.begin();
 
    // Create and add tasks.
    taskScheduler.addTask( exampleTransmitTask );

@@ -59,7 +59,6 @@ void IdentifyMasterTask::execute()
 
 void IdentifyMasterTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, String& msg)
 {
-   msg.trim();
    if(msg == "Master")
    {
        m_master_id = nodeId;
