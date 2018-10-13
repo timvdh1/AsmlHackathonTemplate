@@ -57,40 +57,17 @@ void setup()
     <option value=\"2\">Triangle</option> \
   </select><br><br><input type='submit' value='Submit'></form>");
     MY_DEBUG_PRINTLN("Get Request is received");
-    if (request->hasArg("command_type")){
-      String commandType = request->arg("command_type");
-      int cmd = commandType.toInt();
-      MY_DEBUG_PRINTLN("Command Type: "+ commandType);
-      MY_DEBUG_PRINT("Command Type INT: ");
-       MY_DEBUG_PRINTLN(cmd);
-      //meshNetwork.m_mesh.sendBroadcast(msg);
-    }
      if (request->hasArg("shape_type")){
       String shapeType = request->arg("shape_type");
        int shape = shapeType.toInt();
       MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
       MY_DEBUG_PRINT("Shape Type INT: ");
        MY_DEBUG_PRINTLN(shape);
-    }
-    if (request->hasArg("command_type"))
-    {
-      String broad = request->arg("BROADCAST");
-      MY_DEBUG_PRINT("BROADCAST");
-      MY_DEBUG_PRINTLN(broad);
     }
   });
 server.on("/", HTTP_POST, [](AsyncWebServerRequest *request){
     request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
     MY_DEBUG_PRINTLN("Post Request is received");
-    if (request->hasArg("command_type")){
-      String commandType = request->arg("command_type");
-      int cmd = commandType.toInt();
-      MY_DEBUG_PRINTLN("Command Type: "+ commandType);
-      MY_DEBUG_PRINT("Command Type INT: ");
-       MY_DEBUG_PRINTLN(cmd);
-      //meshNetwork.m_mesh.sendBroadcast(msg);
-    }
-
 
      if (request->hasArg("shape_type")){
       String shapeType = request->arg("shape_type");
@@ -100,11 +77,6 @@ server.on("/", HTTP_POST, [](AsyncWebServerRequest *request){
        MY_DEBUG_PRINTLN(shape);
     }
 
-    if (request->hasArg("json")){
-      String jsonPost = request->arg("json");
-      MY_DEBUG_PRINT("JSON received " + jsonPost);
-      MY_DEBUG_PRINT(jsonPost);
-    }
   });
   server.begin();
    // Create and add tasks.
