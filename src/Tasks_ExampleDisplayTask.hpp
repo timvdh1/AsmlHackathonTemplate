@@ -47,11 +47,14 @@ private:
    Facilities::MeshNetwork& m_mesh;
    LEDMatrixDriver m_lmd;
 
-   int m_x;
+   int matrix_src[32][8];
+   int matrix_dst[32][8];
+
+   int transistion_start;
 
    void receivedCb(Facilities::MeshNetwork::NodeId nodeId, String& msg);
    void loop();
-   void drawMessage(int matrix[32][8]);
+   void drawMatrix();
    void decodeMatrix(const String& msg, int matrix[32][8]);
 
 

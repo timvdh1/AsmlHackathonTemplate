@@ -29,8 +29,7 @@ const unsigned long ExampleDisplayTask::POLL_DELAY_MS = 100;
 ExampleDisplayTask::ExampleDisplayTask(Facilities::MeshNetwork& mesh) :
    Task(POLL_DELAY_MS , TASK_FOREVER, std::bind(&ExampleDisplayTask::execute, this)),
    m_mesh(mesh),
-   m_lmd(LEDMATRIX_SEGMENTS, LEDMATRIX_CS_PIN),
-   m_x(0)
+   m_lmd(LEDMATRIX_SEGMENTS, LEDMATRIX_CS_PIN)
 {
    m_lmd.setEnabled(true);
    m_lmd.setIntensity(LEDMATRIX_INTENSITY);
@@ -40,7 +39,7 @@ ExampleDisplayTask::ExampleDisplayTask(Facilities::MeshNetwork& mesh) :
 
 void ExampleDisplayTask::execute()
 {
-    
+    this->drawMatrix();
 }
 
 int char2int(char input)
@@ -66,8 +65,24 @@ void ExampleDisplayTask::decodeMatrix(const String& msg, int matrix[32][8])
     }
 }
 
-void ExampleDisplayTask::drawMessage(int matrix[32][8])
+void ExampleDisplayTask::drawMatrix()
 {
+
+    int time_past = millis() - transistion_start;
+    if(time_past > 5000) time_past = 5000;
+    float trans = time_past / (5000/2.0);
+
+    int (*matrix)[8];    
+    if(trans < 1)
+    {
+        matrix = matrix_src;
+        m_lmd.setIntensity((int)((1-trans)*15));
+    }
+    else
+    {
+        matrix = matrix_dst;
+        m_lmd.setIntensity((int)(((trans-1))*15));
+    }
     m_lmd.clear();
 
     for(int i = 0; i<32; i++)
@@ -86,10 +101,18 @@ void ExampleDisplayTask::receivedCb(Facilities::MeshNetwork::NodeId nodeId, Stri
 {
     if(msg.startsWith("Draw:"))
     {
-        int matrix[32][8];
         msg = msg.substring(strlen("Draw:"));
-        decodeMatrix(msg, matrix);        
-        drawMessage(matrix);
+
+        for(int i = 0; i<32; i++)
+        {
+            for(int j=0;j<8;j++)
+            {
+                matrix_src[i][j] = matrix_dst[i][j];
+            }
+        }
+        
+        decodeMatrix(msg, matrix_dst);   
+        transistion_start = millis();   
     }
 }
 
