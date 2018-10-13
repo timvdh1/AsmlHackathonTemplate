@@ -92,7 +92,7 @@ void ExampleTransmitTask::sendMatrix()
     Triangle triangle;
 
     LedShape* shape;
-    if(currentShape % 1 == 0)
+    if(currentShape % 1 == 1)
     {
         shape = &square;
     }
