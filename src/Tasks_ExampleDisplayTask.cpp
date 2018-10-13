@@ -76,12 +76,12 @@ void ExampleDisplayTask::drawMatrix()
     if(trans < 1)
     {
         matrix = matrix_src;
-        m_lmd.setIntensity((int)((1-trans)*15));
+        m_lmd.setIntensity((int)((1-trans)*10));
     }
     else
     {
         matrix = matrix_dst;
-        m_lmd.setIntensity((int)(((trans-1))*15));
+        m_lmd.setIntensity((int)(((trans-1))*10));
     }
     m_lmd.clear();
 
