@@ -81,8 +81,10 @@ void ExampleTransmitTask::sendMatrix()
 
 
      std::list<uint32_t> nodes = m_mesh.m_mesh.getNodeList();
+     nodes.push_back(m_mesh.getMyNodeId());
      nodes.sort();
-    int totalNodes = nodes.size() + 1;
+
+    int totalNodes = nodes.size();
     if(totalNodes > 4)
     totalNodes = 4;
 
@@ -111,14 +113,9 @@ void ExampleTransmitTask::sendMatrix()
      MY_DEBUG_PRINTLN("Send shape of size: " + String(totalNodes)); 
      for (std::list<uint32_t>::const_iterator iterator = nodes.begin(), end = nodes.end(); iterator != end; ++iterator) {         
          String msg = encodeMatrix(matrix[currentNode]);
-         currentNode++;
+         if(currentNode < 3)  currentNode++;
          uint32_t node = *iterator;
          m_mesh.sendSingle(node, msg);
-     }
-     if(currentNode <=3)
-     {
-        String msg = encodeMatrix(matrix[currentNode]);
-        m_mesh.sendSingle(m_mesh.getMyNodeId(), msg);
      }
 }
 
