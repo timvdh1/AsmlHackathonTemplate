@@ -47,44 +47,44 @@ void setup()
 
 //    meshNetwork.m_mesh.stationManual(STATION_SSID, STATION_PASSWORD);
 //    meshNetwork.m_mesh.setHostname(HOSTNAME);
-   myAPIP = IPAddress(meshNetwork.m_mesh.getAPIP());
-   MY_DEBUG_PRINTLN("Setup: My IP is " +myAPIP.toString());
+//    myAPIP = IPAddress(meshNetwork.m_mesh.getAPIP());
+//    MY_DEBUG_PRINTLN("Setup: My IP is " +myAPIP.toString());
   
 
-   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(200, "text/html", "<form>Shape to Select<br> \
-      <select name=\"shape_type\" required> \
-    <option value=\"0\">Square</option> \
-    <option value=\"1\">Circle</option> \
-    <option value=\"2\">Triangle</option> \
-  </select><br><br><input type='submit' value='Submit'></form>");
-    MY_DEBUG_PRINTLN("Get Request is received");
+//    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+//     request->send(200, "text/html", "<form>Shape to Select<br> \
+//       <select name=\"shape_type\" required> \
+//     <option value=\"0\">Square</option> \
+//     <option value=\"1\">Circle</option> \
+//     <option value=\"2\">Triangle</option> \
+//   </select><br><br><input type='submit' value='Submit'></form>");
+//     MY_DEBUG_PRINTLN("Get Request is received");
    
-     if (request->hasArg("shape_type")){
-      String shapeType = request->arg("shape_type");
-       int shape = shapeType.toInt();
-      MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
-      MY_DEBUG_PRINT("Shape Type INT: ");
-       MY_DEBUG_PRINTLN(shape);
-      meshNetwork.sendBroadcastAll("Shape:"+ String(shape));
-    }
+//      if (request->hasArg("shape_type")){
+//       String shapeType = request->arg("shape_type");
+//        int shape = shapeType.toInt();
+//       MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
+//       MY_DEBUG_PRINT("Shape Type INT: ");
+//        MY_DEBUG_PRINTLN(shape);
+//       meshNetwork.sendBroadcastAll("Shape:"+ String(shape));
+//     }
     
-  });
-server.on("/", HTTP_POST, [](AsyncWebServerRequest *request){
-    request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
-    MY_DEBUG_PRINTLN("Post Request is received");
+//   });
+// server.on("/", HTTP_POST, [](AsyncWebServerRequest *request){
+//     request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
+//     MY_DEBUG_PRINTLN("Post Request is received");
     
-     if (request->hasArg("shape_type")){
-      String shapeType = request->arg("shape_type");
-       int shape = shapeType.toInt();
-      MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
-      MY_DEBUG_PRINT("Shape Type INT: ");
-       MY_DEBUG_PRINTLN(shape);
-       meshNetwork.sendBroadcastAll("Shape:"+ String(shape));
-    }
+//      if (request->hasArg("shape_type")){
+//       String shapeType = request->arg("shape_type");
+//        int shape = shapeType.toInt();
+//       MY_DEBUG_PRINTLN("Shape Type: "+ shapeType);
+//       MY_DEBUG_PRINT("Shape Type INT: ");
+//        MY_DEBUG_PRINTLN(shape);
+//        meshNetwork.sendBroadcastAll("Shape:"+ String(shape));
+//     }
     
-  });
-  server.begin();
+//   });
+//   server.begin();
 
    // Create and add tasks.
    bool hardcoded = false;
