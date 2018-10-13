@@ -21,7 +21,7 @@ namespace Tasks {
 
 
 ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh, IdentifyMasterTask& identifyMasterTask) :
-   Task(TASK_SECOND * 10 , TASK_FOREVER, std::bind(&ExampleTransmitTask::execute, this)),
+   Task(TASK_SECOND * 5 , TASK_FOREVER, std::bind(&ExampleTransmitTask::execute, this)),
    m_mesh(mesh),
    m_identifyMasterTask(identifyMasterTask)
 {
@@ -63,6 +63,7 @@ void ExampleTransmitTask::sendMatrix()
 
 
      std::list<uint32_t> nodes = m_mesh.m_mesh.getNodeList();
+     nodes.sort();
     int totalNodes = nodes.size() + 1;
     if(totalNodes > 4)
     totalNodes = 4;
@@ -72,6 +73,7 @@ void ExampleTransmitTask::sendMatrix()
     square.scale(totalNodes,1, matrix);
     int currentNode = 0;
 
+     MY_DEBUG_PRINTLN("Send shape of size: " + String(totalNodes)); 
      for (std::list<uint32_t>::const_iterator iterator = nodes.begin(), end = nodes.end(); iterator != end; ++iterator) {         
          String msg = encodeMatrix(matrix[currentNode]);
          currentNode++;
