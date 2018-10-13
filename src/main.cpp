@@ -43,20 +43,21 @@ void setup()
    MY_DEBUG_BEGIN(115200);
 
    // Create MeshNetwork
-   meshNetwork.initialize(F("Mesh_Black"), F("blueblue"), taskScheduler);
+   meshNetwork.initialize(F(STATION_SSID), F(STATION_PASSWORD), taskScheduler);
 
-//    meshNetwork.m_mesh.stationManual(STATION_SSID, STATION_PASSWORD);
-//    meshNetwork.m_mesh.setHostname(HOSTNAME);
-//    myAPIP = IPAddress(meshNetwork.m_mesh.getAPIP());
+    //meshNetwork.m_mesh.stationManual(STATION_SSID, STATION_PASSWORD);
+    meshNetwork.m_mesh.setHostname(HOSTNAME);
+    myAPIP = IPAddress(meshNetwork.m_mesh.getAPIP());
 
-//    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-//     request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
-//     if (request->hasArg("BROADCAST")){
-//       String msg = request->arg("BROADCAST");
-//       meshNetwork.m_mesh.sendBroadcast(msg);
-//     }
-//   });
-//   sever.begin();
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+     request->send(200, "text/html", "<form>Text to Broadcast<br><input type='text' name='BROADCAST'><br><br><input type='submit' value='Submit'></form>");
+     exampleTransmitTask.nextShape();
+     //if (request->hasArg("BROADCAST")){
+     //  String msg = request->arg("BROADCAST");
+     //  meshNetwork.m_mesh.sendBroadcast(msg);
+     //}
+   });
+   server.begin();
 
    // Create and add tasks.
    bool hardcoded = false;
@@ -86,10 +87,10 @@ void loop()
    taskScheduler.execute();
    meshNetwork.update();
 
-//    if(myIP != getlocalIP()){
-//     myIP = getlocalIP();
-//     Serial.println("My IP is " + myIP.toString());
-//   }
+    if(myIP != getlocalIP()) {
+     myIP = getlocalIP();
+     Serial.println("My IP is " + myIP.toString());
+   }
 }
 
 IPAddress getlocalIP() {

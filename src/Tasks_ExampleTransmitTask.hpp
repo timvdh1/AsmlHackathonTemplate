@@ -34,11 +34,13 @@ public:
     String  encodeMatrix( int * matrix);
     void  sendMatrix();
    void execute();
-
+   
+   void nextShape();
 private:
    IdentifyMasterTask& m_identifyMasterTask;
    Facilities::MeshNetwork& m_mesh;
    Square mSquare;
+   int currentShape;
 
 };
 

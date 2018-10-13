@@ -28,6 +28,12 @@ ExampleTransmitTask::ExampleTransmitTask(Facilities::MeshNetwork& mesh, Identify
 
 }
 
+   void ExampleTransmitTask::nextShape()
+   {
+       currentShape++;
+       this->execute();
+   }
+
 void array_to_string(char array[], unsigned int len, char buffer[])
 {
     for (unsigned int i = 0; i < len; i++)
@@ -80,9 +86,21 @@ void ExampleTransmitTask::sendMatrix()
     if(totalNodes > 4)
     totalNodes = 4;
 
+    
+    Square square;
+    Circle circle;
 
-    Circle square;
-    square.scale(totalNodes,1, matrix);
+    LedShape* shape;
+    if(currentShape % 2 == 0)
+    {
+        shape = &square;
+    }
+    else
+    {
+        shape = &circle;
+    }
+
+    shape->scale(totalNodes,1, matrix);
     int currentNode = 0;
 
      MY_DEBUG_PRINTLN("Send shape of size: " + String(totalNodes)); 
